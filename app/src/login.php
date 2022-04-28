@@ -7,12 +7,14 @@ try {
     $myusername = $_POST['username'];
     $mypassword = $_POST['password'];
 
-    //convert password to 80 byte hash using ripemd256 before comparing
-    $hashpassword = hash('ripemd256', $mypassword);
-
-    if($myusername==null)
+    if($myusername==null || $mypassword==null)
     {throw new Exception("input did not exist");}
 
+    if(!filter_var($mypassword, FILTER_VALIDATE_EMAIL) || !(preg_match("^[a-zA-Z0-9]{5,20}$", $mypassword)))
+    {throw new Exception("login data invalid");}
+
+    //convert password to 80 byte hash using ripemd256 before comparing
+    $hashpassword = hash('ripemd256', $mypassword);
 
     $myusername = strtolower($myusername); //makes username noncase-sensitive
     global $acctype;
