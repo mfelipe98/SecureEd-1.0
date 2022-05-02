@@ -13,7 +13,8 @@ try {
     if(!filter_var($mypassword, FILTER_VALIDATE_EMAIL) || !(preg_match("^[a-zA-Z0-9]{5,20}$", $mypassword)))
     {$error = true;}
 
-    //convert password to 80 byte hash using ripemd256 before comparing
+    if (!$error){
+        //convert password to 80 byte hash using ripemd256 before comparing
     $hashpassword = hash('ripemd256', $mypassword);
 
     $myusername = strtolower($myusername); //makes username noncase-sensitive
@@ -70,6 +71,11 @@ try {
         header("Location: ../public/index.php?login=fail");
     }
 //note: since the database is not changed, it is not backed up
+    }else{
+        //login fail
+        header("Location: ../public/index.php?login=fail");
+    }
+    
 }
 catch(Exception $e)
 {
