@@ -8,10 +8,10 @@ try {
     $mypassword = $_POST['password'];
 
     if($myusername==null || $mypassword==null)
-    {throw new Exception("input did not exist");}
+    {$error = true;}
 
     if(!filter_var($mypassword, FILTER_VALIDATE_EMAIL) || !(preg_match("^[a-zA-Z0-9]{5,20}$", $mypassword)))
-    {throw new Exception("login data invalid");}
+    {$error = true;}
 
     //convert password to 80 byte hash using ripemd256 before comparing
     $hashpassword = hash('ripemd256', $mypassword);
